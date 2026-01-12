@@ -31,6 +31,7 @@ class LoadBalancer:
         params: Optional[Mapping[str, str]] = None,
         body: Optional[bytes] = None,
         timeout: Optional[float] = None,
+        client_id: Optional[str] = None,
     ) -> StubResponse:
         request = Request(
             method=method,
@@ -39,6 +40,7 @@ class LoadBalancer:
             params=params or {},
             body=body,
             timeout=timeout,
+            client_id=client_id,
         )
         backend = self._algorithm.select(request)
         return self._requester.send_request(backend, request)
