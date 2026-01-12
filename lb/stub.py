@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Mapping, Optional, Protocol
+from typing import Mapping, Optional, Protocol, runtime_checkable
 
 
 @dataclass(frozen=True)
@@ -11,8 +11,9 @@ class StubResponse:
     status_code: int
     body: bytes
     headers: Mapping[str, str]
-
+    
 #simple interface
+@runtime_checkable
 class RequestInterface(Protocol):
     def send_request(
         self,
@@ -25,6 +26,7 @@ class RequestInterface(Protocol):
         timeout: Optional[float] = None,
     ) -> StubResponse:
         """Send a request without requiring a real server."""
+        ...
 
 #stub for Request using the interface
 class InMemoryRequestStub(RequestInterface):
